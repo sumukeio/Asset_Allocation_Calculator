@@ -7,9 +7,7 @@
 原生JavaScript、Axios、ECharts
 
 ## 后端
-SpringBoot3
-Spring Data JPA
-Hibernate
+SpringBoot3、Spring Data JPA、Hibernate
 
 ## 数据库
 PostgreSQL
