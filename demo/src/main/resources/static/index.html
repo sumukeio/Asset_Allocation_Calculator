@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资产配置规划器 - 前端</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>资产配置规划器</h1>
+        <nav>
+            <button id="nav-config" class="active">开始配置</button>
+            <button id="nav-history">过往记录</button>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <div id="loading-overlay">正在尝试连接后端服务...</div>
+        
+        <section id="config-view" class="active">
+            <h2>当前资产配置</h2>
+
+            <div class="asset-grid">
+                <div class="asset-block" id="block-nasdaq">
+                    <h3>纳指持仓 (<span class="total-amount" data-asset="nasdaq">0.00</span> 元)</h3>
+                    <ul class="asset-list"></ul>
+                    <button class="add-btn" onclick="openModal('纳指持仓', 'nasdaq')">+</button>
+                </div>
+
+                <div class="asset-block" id="block-sp">
+                    <h3>标普持仓 (<span class="total-amount" data-asset="sp">0.00</span> 元)</h3>
+                    <ul class="asset-list"></ul>
+                    <button class="add-btn" onclick="openModal('标普持仓', 'sp')">+</button>
+                </div>
+
+                <div class="asset-block" id="block-conservative">
+                    <h3>稳健投资 (<span class="total-amount" data-asset="conservative">0.00</span> 元)</h3>
+                    <ul class="asset-list"></ul>
+                    <button class="add-btn" onclick="openModal('稳健投资', 'conservative')">+</button>
+                </div>
+
+                <div class="asset-block" id="block-cash">
+                    <h3>现金 (<span class="total-amount" data-asset="cash">0.00</span> 元)</h3>
+                    <ul class="asset-list"></ul>
+                    <button class="add-btn" onclick="openModal('现金', 'cash')">+</button>
+                </div>
+            </div>
+
+            <div class="summary-and-recommendation">
+                <div class="summary-box">
+                    总资产: <span id="grand-total">0.00</span> 元
+                </div>
+                <button id="calculate-btn">计算并展示推荐配置</button>
+
+                <div id="recommendation-results" style="display: none;">
+                    <h3>推荐配置结果</h3>
+                    <div id="recommendation-chart" style="width: 100%; height: 250px;"></div>
+                    <table id="recommendation-table">
+                        <thead>
+                            <tr><th>资产类别</th><th>当前金额</th><th>推荐金额 (目标比例)</th><th>差额 (需调整)</th></tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                    <button id="save-config-btn">保存当前配置到过往记录</button>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="history-view" style="display: none;">
+            <h2>过往记录</h2>
+            <div class="chart-container">
+                <div id="history-pie-chart" style="width: 45%; height: 300px; display: inline-block;"></div>
+                <div id="history-line-chart" style="width: 45%; height: 300px; display: inline-block;"></div>
+            </div>
+
+            <h3>每月资产配置明细</h3>
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>总资产</th>
+                        <th>纳指 (实际)</th>
+                        <th>标普 (实际)</th>
+                        <th>现金 (实际)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <div id="add-asset-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title">添加资产</h3>
+            <form id="add-asset-form">
+                <input type="hidden" id="asset-type-hidden">
+                <label for="asset-name">名称/代码:</label>
+                <input type="text" id="asset-name" required><br>
+                <label for="asset-amount">持有资金 (元):</label>
+                <input type="number" id="asset-amount" min="1" step="0.01" required><br>
+                <button type="submit" id="add-asset-submit">添加</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

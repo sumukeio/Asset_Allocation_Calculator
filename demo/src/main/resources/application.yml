@@ -1,0 +1,55 @@
+# spring:
+#   datasource:  # 配置mysql
+#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     url: jdbc:mysql://127.0.0.1:3306/mydb?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
+#     username: root
+#     password: 123456
+
+spring:
+  # ----------------------------------------------------
+  # 1. 数据库配置
+  # ----------------------------------------------------
+  datasource:
+    # 数据库连接 URL
+    # 格式：jdbc:postgresql://<主机名>:<端口>/<数据库名称>
+    url: jdbc:postgresql://localhost:5432/asset_allocation_calculator
+    
+    # 数据库用户名
+    username: postgres
+    
+    # 数据库密码
+    password: 250113
+    
+    # PostgreSQL 驱动类
+    driver-class-name: org.postgresql.Driver
+
+  # ----------------------------------------------------
+  # 2. JPA (持久层) 配置
+  # ----------------------------------------------------
+  jpa:
+    # 数据库类型方言
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    
+    # DDL (数据定义语言) 自动配置
+    # 推荐使用 'update' 或 'none'，开发初期可以使用 'create' 或 'create-drop'
+    # update: 如果实体发生变化，Hibernate 会尝试更新表结构，保留数据。
+    # none: 禁用自动 DDL。
+    hibernate:
+      ddl-auto: update
+      
+    # 显示 SQL 语句，方便调试
+    show-sql: true
+    
+    # 格式化显示的 SQL 语句
+    properties:
+      hibernate:
+        format_sql: true
+
+# ----------------------------------------------------
+# 3. 后端服务端口配置
+# ----------------------------------------------------
+server:
+  port: 8080  # 默认端口
+  
+mybatis:
+  mapper-locations: classpath:mapper/*.xml 
